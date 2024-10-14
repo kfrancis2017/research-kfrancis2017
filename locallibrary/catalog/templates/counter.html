@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Counter</title>
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Check if this cookie string begins with the name we want
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Button Click Counter</h1>
+    <p>This is a simple counter. Click the button below and see the number increase.</p>
+
+    <h2>Click count: <span id="counter">{{ count|default:0 }}</span></h2>
+    <button id="clickButton">Click Me!</button>
+
+    <script>
+        // JavaScript to handle button clicks and send a request to the server
+        document.getElementById('clickButton').addEventListener('click', function() {
+                 document.getElementById('counter').textContent = parseInt(document.getElementById('counter').textContent) + 1;
+        });
+    </script>
+
+    <h3>
+        <button id="SaveButton">Save Entry</button>
+    </h3>
+
+    <script>
+
+        // Get the CSRF token from the cookie
+        const csrftoken = getCookie('csrftoken');
+
+        // Add the CSRF token to the headers of your fetch request
+        document.getElementById('SaveButton').addEventListener('click', function() {
+            fetch("{% url 'save_counter' %}", {
+                method: 'POST',  // Ensure the method is POST
+                headers: {
+                    'Content-Type': 'application/json',  // Set content type
+                    'X-CSRFToken': csrftoken,  // Include the CSRF token
+                },
+                body: JSON.stringify({numClicks: document.getElementById('counter').textContent}),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('counter').textContent = data.count;  // Update the counter value
+            })
+            .catch(error => console.error('There has been a problem with your fetch operation:', error));
+        });
+    </script>
+    
+</body>
+</html>
