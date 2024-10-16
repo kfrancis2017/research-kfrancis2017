@@ -21,7 +21,6 @@ urlpatterns = [
 # Assign distinct paths to avoid conflict with catalog URLs
 urlpatterns += [
     path('counter/', views.index, name='counter'),
-    path('increments/', views.increment_counter, name='increment_counter'),
     path('save_counter/', views.save_counter, name='save_counter'),
 ]
 

@@ -12,9 +12,8 @@ urlpatterns = [
     # Add a view for the root catalog URL
     path('', views.index, name='catalog_index'),  # This will handle requests to 'catalog/'
     
-    # Counter-related views
+    # Counter view
     path('counter/', views.index, name='counter'),  # Keeping this for additional functionality
-    path('increment/', views.increment_counter, name='increment_counter'),
     
     # Save entry view
     path('save_counter/', views.save_counter, name='save_counter'),

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*6m-(bk&-)rerxs9h(!tejh77$n7ix9de5*(b1oe=z#vxkiu0+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!   
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -52,6 +52,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_COOKIE_NAME = 'csrftoken'  # Name of the CSRF cookie
+CSRF_COOKIE_PATH = '/'  # Path for the cookie
+CSRF_COOKIE_SECURE = False  # Set to True to only send the cookie over HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Set to True to prevent JavaScript access
+CSRF_COOKIE_SAMESITE = 'Lax'  # Control the SameSite attribute (None, Lax, Strict)
+
 
 ROOT_URLCONF = 'locallibrary.urls'
 
